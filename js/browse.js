@@ -54,8 +54,14 @@ houseCards.forEach(function(houseCard) {
     .trim();
 
     const price = Number(priceText1);
-    console.log(price)
+    if (price < 1000000) {
+        houseCard.style.display = '';
+    } else {
+        houseCard.style.display = '';
+    }
 })
+
+// Lesson 21:  Read the selected price filter
 
 console.log(houseCards);
 console.log("Number of houses:", houseCards.length);
@@ -68,7 +74,5 @@ searchFrom.addEventListener('submit', function(event) {
     const selectedType = propertyTypeSelect.value;
     const selectedPrice = priceSelect.value;
 
-    console.log('Location:', selectedLocation);
-    console.log('Property type:', selectedType);
-    console.log('Price range:', selectedPrice);
+    conssole.log('Selected price:', selectedPrice);
 })
