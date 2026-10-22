@@ -4,75 +4,58 @@ const propertyTypeSelect = document.getElementById('property-type');
 const priceSelect = document.getElementById('price');
 const houseCards = document.querySelectorAll('.house-card');
 
-const firstHouse = houseCards[0];
-console.log(firstHouse);
-const firstHouseLocation = firstHouse.querySelector('.house-location');
-console.log(firstHouseLocation);
-console.log(firstHouseLocation.textContent);
-const cleanedLocation = firstHouseLocation.textContent.trim();
-console.log(cleanedLocation);
-
-const firstHousePrice = firstHouse.querySelector('.house-price');
-
-console.log(firstHousePrice.textContent.trim());
-const priceText = firstHousePrice.textContent.trim();
-
-const priceWithoutCurrency = priceText
-.replace('TZS ', '')
-.replaceAll(',', '');
-
-console.log(priceWithoutCurrency);
-
-const priceAmountText = priceWithoutCurrency.replace('/ month', '');
-console.log(priceAmountText);
-// lesson 13: Converting price text into a number with Number()
-const priceAmount = Number(priceAmountText);
-console.log(priceAmount);
-console.log(typeof priceAmount);
-
-// lesson 14: Comparing house prices with JavaScript
-console.log(priceAmount < 1000000);
-
-// lesson 15: Checking every house card with forEach()
-houseCards.forEach(function(houseCard) {
-    const housePriceElement = 
-    houseCard.querySelector('.house-price');
-
-    const housePriceText = 
-    housePriceElement.textContent.trim();
-    console.log(housePriceText)
-});
-
-// Lesson 16: Convert every house price into a number
-houseCards.forEach(function(houseCard) {
-    const priceElement = houseCard.querySelector('.house-price');
-
-    const priceText1 = priceElement.textContent
-    .replace('TZS ', '')
-    .replaceAll(',', '')
-    .split('/')[0]
-    .trim();
-
-    const price = Number(priceText1);
-    if (price < 1000000) {
-        houseCard.style.display = '';
-    } else {
-        houseCard.style.display = '';
-    }
-})
-
-// Lesson 21:  Read the selected price filter
-
-console.log(houseCards);
-console.log("Number of houses:", houseCards.length);
-
-
 searchFrom.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const selectedLocation = locationSelect.value;
-    const selectedType = propertyTypeSelect.value;
     const selectedPrice = priceSelect.value;
+    const selectedLocation = locationSelect.value;
 
-    conssole.log('Selected price:', selectedPrice);
+    houseCards.forEach(function(houseCard) {
+        const priceElement = houseCard.querySelector('.house-price');
+        const locationElement = houseCard.querySelector('.house-location');
+        const houseLocation = locationElement.textContent.trim();
+
+        const normalizedHouseLocation = houseLocation
+        .toLowerCase()
+        .replaceAll('-', ' ')
+        .trim();
+
+        const normalizedSelectedLocation = selectedLocation
+        .toLowerCase()
+        .replaceAll('-', ' ')
+        .trim();
+
+        const matchesLocation =
+        selectedLocation === '' ||
+        normalizedHouseLocation.toLowerCase().includes(normalizedSelectedLocation);
+
+        const priceText = priceElement.textContent
+        .replace('TZS', '')
+        .replaceAll(',', '')
+        .split('/')[0]
+        .trim();
+
+        const price = Number(priceText);
+
+        let matchesPrice = true;
+
+        if (selectedPrice === 'under-500k') {
+            matchesPrice = price < 500000;
+        } else if (selectedPrice === '500k-1m') {
+            matchesPrice = price >= 500000 && price <= 1000000;
+        } else if (selectedPrice === '1m-2m') {
+            matchesPrice = price > 1000000 && price <= 2000000;
+        } else if (selectedPrice === 'above-2m') {
+            matchesPrice = price > 2000000;
+        }
+
+        if (matchesPrice && matchesLocation) {
+            houseCard.style.display = '';
+        } else {
+            houseCard.style.display = 'none';
+        }
+    });
+
+    console.log('Selected price;', selectedPrice);
+    console.log('Selected location:', selectedLocation);
 })
