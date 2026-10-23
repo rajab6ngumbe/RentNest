@@ -9,11 +9,19 @@ searchFrom.addEventListener('submit', function(event) {
 
     const selectedPrice = priceSelect.value;
     const selectedLocation = locationSelect.value;
+    const selectedPropertyType = propertyTypeSelect.value;
 
     houseCards.forEach(function(houseCard) {
         const priceElement = houseCard.querySelector('.house-price');
         const locationElement = houseCard.querySelector('.house-location');
         const houseLocation = locationElement.textContent.trim();
+        const typeElement = houseCard.querySelector('.house-type');
+        const houseType = typeElement.textContent.trim();
+
+        const matchesPropertyType =
+        selectedPropertyType === '' ||
+        houseType.toLowerCase() === selectedPropertyType.toLowerCase();
+
 
         const normalizedHouseLocation = houseLocation
         .toLowerCase()
@@ -49,7 +57,7 @@ searchFrom.addEventListener('submit', function(event) {
             matchesPrice = price > 2000000;
         }
 
-        if (matchesPrice && matchesLocation) {
+        if (matchesPrice && matchesLocation && matchesPropertyType) {
             houseCard.style.display = '';
         } else {
             houseCard.style.display = 'none';
@@ -58,4 +66,5 @@ searchFrom.addEventListener('submit', function(event) {
 
     console.log('Selected price;', selectedPrice);
     console.log('Selected location:', selectedLocation);
+    console.log('Selected property type:', selectedPropertyType);
 })
