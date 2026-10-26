@@ -5,10 +5,10 @@ const priceSelect = document.getElementById('price');
 const houseCards = document.querySelectorAll('.house-card');
 const noResultsMessage = document.getElementById('no-results');
 const clearFiltersButton = document.getElementById('clear-filters');
+const houseCount = document.getElementById('house-count');
 
 
-searchFrom.addEventListener('submit', function(event) {
-    event.preventDefault();
+function filterHouses() {
 
     const selectedPrice = priceSelect.value;
     const selectedLocation = locationSelect.value;
@@ -74,9 +74,20 @@ searchFrom.addEventListener('submit', function(event) {
         noResultsMessage.hidden = true;
     }
 
+    if(visibleHouseCount === 1) {
+        houseCount.textContent = '1 property found';
+    } else {
+        houseCount.textContent = visibleHouseCount + ' properties found';
+    }
+
     console.log('Selected price;', selectedPrice);
     console.log('Selected location:', selectedLocation);
     console.log('Selected property type:', selectedPropertyType);
+}
+
+searchFrom.addEventListener('submit', function(event) {
+    event.preventDefault();
+    filterHouses();
 })
 
 clearFiltersButton.addEventListener('click', function() {
@@ -84,8 +95,10 @@ clearFiltersButton.addEventListener('click', function() {
     propertyTypeSelect.value = '';
     priceSelect.value = '';
 
-    houseCards.forEach(function(houseCard) {
-        houseCard.style.display = '';
-    });
-    noResultsMessage.hidden = true;
+    filterHouses();
 })
+
+/* Filter automatically when a dropdown changes */
+locationSelect.addEventListener('change', filterHouses);
+priceSelect.addEventListener('change', filterHouses);
+propertyTypeSelect.addEventListener('change', filterHouses);
