@@ -3,6 +3,9 @@ const locationSelect = document.getElementById('location');
 const propertyTypeSelect = document.getElementById('property-type');
 const priceSelect = document.getElementById('price');
 const houseCards = document.querySelectorAll('.house-card');
+const noResultsMessage = document.getElementById('no-results');
+const clearFiltersButton = document.getElementById('clear-filters');
+
 
 searchFrom.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -10,6 +13,7 @@ searchFrom.addEventListener('submit', function(event) {
     const selectedPrice = priceSelect.value;
     const selectedLocation = locationSelect.value;
     const selectedPropertyType = propertyTypeSelect.value;
+    let visibleHouseCount = 0;
 
     houseCards.forEach(function(houseCard) {
         const priceElement = houseCard.querySelector('.house-price');
@@ -59,12 +63,29 @@ searchFrom.addEventListener('submit', function(event) {
 
         if (matchesPrice && matchesLocation && matchesPropertyType) {
             houseCard.style.display = '';
+            visibleHouseCount++;
         } else {
             houseCard.style.display = 'none';
         }
     });
+    if(visibleHouseCount === 0) {
+        noResultsMessage.hidden = false;
+    } else {
+        noResultsMessage.hidden = true;
+    }
 
     console.log('Selected price;', selectedPrice);
     console.log('Selected location:', selectedLocation);
     console.log('Selected property type:', selectedPropertyType);
+})
+
+clearFiltersButton.addEventListener('click', function() {
+    locationSelect.value = '';
+    propertyTypeSelect.value = '';
+    priceSelect.value = '';
+
+    houseCards.forEach(function(houseCard) {
+        houseCard.style.display = '';
+    });
+    noResultsMessage.hidden = true;
 })
