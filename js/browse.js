@@ -6,6 +6,7 @@ const houseCards = document.querySelectorAll('.house-card');
 const noResultsMessage = document.getElementById('no-results');
 const clearFiltersButton = document.getElementById('clear-filters');
 const houseCount = document.getElementById('house-count');
+const houseSearchInput = document.getElementById('house-search');
 
 
 function filterHouses() {
