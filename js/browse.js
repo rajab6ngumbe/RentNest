@@ -6,14 +6,62 @@ const houseCards = document.querySelectorAll('.house-card');
 const noResultsMessage = document.getElementById('no-results');
 const clearFiltersButton = document.getElementById('clear-filters');
 const houseCount = document.getElementById('house-count');
+const sortPriceSelect = document.getElementById('sort-price');
+const houseGrid = document.querySelector('.house-grid');
+const originalHouseCards = Array.from(houseCards);
 const houseSearchInput = document.getElementById('house-search');
 
+
+function getHousePrice(houseCard) {
+    const priceElement = houseCard.querySelector('.house-price');
+
+    const priceText = priceElement.textContent
+        .replace('TZS', '')
+        .replaceAll(',', '')
+        .split('/')[0]
+        .trim();
+
+    return Number(priceText);
+}
+
+function sortHouses() {
+    const selectedSort = sortPriceSelect.value;
+    const houseCardsArray = Array.from(houseCards);
+
+    if (selectedSort === 'default') {
+        originalHouseCards.forEach(function(houseCard) {
+            houseGrid.appendChild(houseCard);
+        });
+
+        return;
+    }
+
+    houseCardsArray.sort(function(a, b) {
+        const priceA = getHousePrice(a);
+        const priceB = getHousePrice(b);
+
+        if (selectedSort === 'low-to-high') {
+            return priceA - priceB;
+        }
+
+        if (selectedSort === 'high-to-low') {
+            return priceB - priceA;
+        }
+
+        return 0;
+    });
+
+    houseCardsArray.forEach(function(houseCard) {
+        houseGrid.appendChild(houseCard);
+    });
+}
 
 function filterHouses() {
 
     const selectedPrice = priceSelect.value;
     const selectedLocation = locationSelect.value;
     const selectedPropertyType = propertyTypeSelect.value;
+    const searchText = houseSearchInput.value.toLowerCase().trim();
     let visibleHouseCount = 0;
 
     houseCards.forEach(function(houseCard) {
@@ -22,6 +70,8 @@ function filterHouses() {
         const houseLocation = locationElement.textContent.trim();
         const typeElement = houseCard.querySelector('.house-type');
         const houseType = typeElement.textContent.trim();
+        const houseName = houseCard.querySelector('.house-title').textContent.toLocaleLowerCase();
+        const matchesSearch = houseName.includes(searchText);
 
         const matchesPropertyType =
         selectedPropertyType === '' ||
@@ -62,7 +112,7 @@ function filterHouses() {
             matchesPrice = price > 2000000;
         }
 
-        if (matchesPrice && matchesLocation && matchesPropertyType) {
+        if (matchesSearch && matchesPrice && matchesLocation && matchesPropertyType) {
             houseCard.style.display = '';
             visibleHouseCount++;
         } else {
@@ -95,11 +145,17 @@ clearFiltersButton.addEventListener('click', function() {
     locationSelect.value = '';
     propertyTypeSelect.value = '';
     priceSelect.value = '';
+    houseSearchInput.value = '';
+    sortPriceSelect.value = 'default';
 
     filterHouses();
+    sortHouses();
+    
 })
 
 /* Filter automatically when a dropdown changes */
 locationSelect.addEventListener('change', filterHouses);
 priceSelect.addEventListener('change', filterHouses);
 propertyTypeSelect.addEventListener('change', filterHouses);
+sortPriceSelect.addEventListener('change', sortHouses);
+houseSearchInput.addEventListener('input', filterHouses);
