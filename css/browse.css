@@ -93,8 +93,8 @@
 .search-form button {
     height: 48px;
     padding: 0 25px;
-
     border: none;
+    height: 48px;
     border-radius: 8px;
     background-color: #2E8B57;
     color: #ffffff;
@@ -112,11 +112,6 @@
     display: flex;
     gap: 12px;
     align-items: end;
-}
-
-.form-action button {
-    flex: 1;
-    min-width: 0;
 }
 
 
@@ -172,7 +167,7 @@
 
 .house-image {
     width: 100%;
-    height: 220px;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
 }
 
@@ -212,21 +207,6 @@
     background-color: #267349;
 }
 
-/* === No Results Message === */
-#no-results {
-    margin: 30px auto;
-    padding: 25px 20px;
-    max-width: 600px;
-    text-align: center;
-    background-color: #f4f8f5;
-    border: 1px solid #d5e5da;
-    border-radius: 12px;
-    color: #444;
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-
 /* === Pagination Section === */
 
 .pagination-section {
@@ -260,7 +240,7 @@
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s ease,
-      colore o.3s ease;
+      color 0.3s ease;
 }
 
 .page-numbers a.active {
@@ -284,13 +264,37 @@
     color: #267349;
 }
 
+
+/* === No Results Message === */
+#no-results {
+    margin: 30px auto;
+    padding: 25px 20px;
+    max-width: 600px;
+    text-align: center;
+    background-color: #f4f8f5;
+    border: 1px solid #d5e5da;
+    border-radius: 12px;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
 @media (max-width: 900px) {
      .search-form {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+    .house-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 600px) {
+     .form-action {
+        flex-direction: column;
+    }
+    .form-action button {
+        width: 100%;
+    }
     .search-form {
         grid-template-columns: 1fr;
     }
@@ -328,7 +332,7 @@
     }
 
     .house-image {
-        height: 200px;
+        height: 220px;
     }
 
     .pagination {
@@ -340,12 +344,12 @@
     }
 
     .page-numbers a {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
     }
 
     .pagination-btn {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
 }
