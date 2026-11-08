@@ -260,6 +260,12 @@
     transition: color 0.3s ease;
 }
 
+.pagination-btn.disabled {
+    color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .pagination-btn:hover {
     color: #267349;
 }

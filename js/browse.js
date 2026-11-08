@@ -9,7 +9,13 @@ const houseCount = document.getElementById('house-count');
 const sortPriceSelect = document.getElementById('sort-price');
 const houseGrid = document.querySelector('.house-grid');
 const originalHouseCards = Array.from(houseCards);
+const itemsPerPage = 2;
+let currentPage = 1;
+let filteredHouseCards = [...originalHouseCards];
 const houseSearchInput = document.getElementById('house-search');
+const previousPageButton = document.getElementById('previous-page');
+const nextPageButton = document.getElementById('next-page');
+const pageNumbersContainer = document.getElementById('page-numbers');
 
 
 function getHousePrice(houseCard) {
@@ -25,35 +31,97 @@ function getHousePrice(houseCard) {
 }
 
 function sortHouses() {
-    const selectedSort = sortPriceSelect.value;
-    const houseCardsArray = Array.from(houseCards);
+       const selectedSort = sortPriceSelect.value;
 
     if (selectedSort === 'default') {
-        originalHouseCards.forEach(function(houseCard) {
-            houseGrid.appendChild(houseCard);
+        filteredHouseCards.sort(function(a, b) {
+            return originalHouseCards.indexOf(a) -
+                   originalHouseCards.indexOf(b);
         });
-
-        return;
     }
 
-    houseCardsArray.sort(function(a, b) {
-        const priceA = getHousePrice(a);
-        const priceB = getHousePrice(b);
+    if (selectedSort === 'low-to-high') {
+        filteredHouseCards.sort(function(a, b) {
+            return getHousePrice(a) - getHousePrice(b);
+        });
+    }
 
-        if (selectedSort === 'low-to-high') {
-            return priceA - priceB;
-        }
+    if (selectedSort === 'high-to-low') {
+        filteredHouseCards.sort(function(a, b) {
+            return getHousePrice(b) - getHousePrice(a);
+        });
+    }
 
-        if (selectedSort === 'high-to-low') {
-            return priceB - priceA;
-        }
+    // Return to page 1 after sorting
+    currentPage = 1;
 
-        return 0;
+    // Display the sorted properties
+    displayCurrentPage();
+}
+
+function displayCurrentPage() {
+    // Hide all property cards first
+    originalHouseCards.forEach(function(houseCard) {
+        houseCard.style.display = 'none';
     });
 
-    houseCardsArray.forEach(function(houseCard) {
-        houseGrid.appendChild(houseCard);
-    });
+    // Calculate the indexes for the current page
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // Get the properties for the current page
+    const pageProperties = filteredHouseCards.slice(
+        startIndex,
+        endIndex
+    );
+    // Display the properties for the page
+    pageProperties.forEach(function(houseCard) {
+        houseCard.style.display = '';
+    })
+}
+
+function generatePageNumbers() {
+    const totalPages = Math.ceil(
+        filteredHouseCards.length / itemsPerPage
+    );
+
+    pageNumbersContainer.innerHTML = '';
+
+    for(let page = 1; page <= totalPages; page++) {
+        const pageButton = document.createElement('a');
+
+        pageButton.href = '#';
+        pageButton.textContent = page;
+
+        if(page === currentPage) {
+            pageButton.classList.add('active');
+        }
+        pageNumbersContainer.appendChild(pageButton);
+        pageButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            currentPage = page;
+
+            displayCurrentPage();
+            generatePageNumbers();
+        })
+    }
+    updatePaginationButton();
+}
+
+function updatePaginationButton() {
+    const totalPages = Math.ceil(
+        filteredHouseCards.length / itemsPerPage
+    );
+
+    const isFirstPage = currentPage === 1;
+    const isLastPage = currentPage >= totalPages;
+
+    previousPageButton.classList.toggle('disabled', isFirstPage);
+    nextPageButton.classList.toggle('disabled', isLastPage);
+
+    previousPageButton.setAttribute('arial-disabled', isFirstPage);
+    nextPageButton.setAttribute('aria-disabled', isLastPage);
 }
 
 function filterHouses() {
@@ -62,7 +130,7 @@ function filterHouses() {
     const selectedLocation = locationSelect.value;
     const selectedPropertyType = propertyTypeSelect.value;
     const searchText = houseSearchInput.value.toLowerCase().trim();
-    let visibleHouseCount = 0;
+    filteredHouseCards = [];
 
     houseCards.forEach(function(houseCard) {
         const priceElement = houseCard.querySelector('.house-price');
@@ -113,12 +181,12 @@ function filterHouses() {
         }
 
         if (matchesSearch && matchesPrice && matchesLocation && matchesPropertyType) {
-            houseCard.style.display = '';
-            visibleHouseCount++;
-        } else {
-            houseCard.style.display = 'none';
-        }
+            filteredHouseCards.push(houseCard);
+        } 
+
     });
+    const visibleHouseCount = filteredHouseCards.length
+
     if(visibleHouseCount === 0) {
         noResultsMessage.hidden = false;
     } else {
@@ -130,6 +198,13 @@ function filterHouses() {
     } else {
         houseCount.textContent = visibleHouseCount + ' properties found';
     }
+
+    // Return to page 1 after filtering
+    currentPage = 1;
+
+    // Display the matching properties
+    sortHouses();
+    generatePageNumbers();
 
     console.log('Selected price;', selectedPrice);
     console.log('Selected location:', selectedLocation);
@@ -153,9 +228,37 @@ clearFiltersButton.addEventListener('click', function() {
     
 })
 
+previousPageButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    if (currentPage > 1) {
+        currentPage--;
+
+        displayCurrentPage();
+        generatePageNumbers();
+    }
+})
+
+nextPageButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    const totalPages = Math.ceil(
+        filteredHouseCards.length / itemsPerPage
+    );
+
+    if (currentPage < totalPages) {
+        currentPage++;
+
+        displayCurrentPage();
+        generatePageNumbers();
+    }
+})
+
 /* Filter automatically when a dropdown changes */
 locationSelect.addEventListener('change', filterHouses);
 priceSelect.addEventListener('change', filterHouses);
 propertyTypeSelect.addEventListener('change', filterHouses);
 sortPriceSelect.addEventListener('change', sortHouses);
 houseSearchInput.addEventListener('input', filterHouses);
+// Initialize the browse Page
+filterHouses();
