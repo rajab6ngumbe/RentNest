@@ -166,6 +166,7 @@
 }
 
 .house-image {
+    position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
@@ -205,6 +206,36 @@
 
 .view-house:hover {
     background-color: #267349;
+}
+
+.favourite-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: white;
+    color: #2E8B57;
+    font-size: 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.3s ease;
+}
+
+.favourite-btn:hover {
+    background-color: #e8f5ec;
+}
+.favourite-btn.active {
+    background-color: #2E8B57;
+    color: white;
 }
 
 /* === Pagination Section === */

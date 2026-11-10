@@ -16,6 +16,9 @@ const houseSearchInput = document.getElementById('house-search');
 const previousPageButton = document.getElementById('previous-page');
 const nextPageButton = document.getElementById('next-page');
 const pageNumbersContainer = document.getElementById('page-numbers');
+let favourites = JSON.parse(
+    localStorage.getItem('favourites')
+) || [];
 
 
 function getHousePrice(houseCard) {
@@ -262,3 +265,39 @@ sortPriceSelect.addEventListener('change', sortHouses);
 houseSearchInput.addEventListener('input', filterHouses);
 // Initialize the browse Page
 filterHouses();
+
+// Save favourites using localStorage
+const favouriteButtons = document.querySelectorAll('.favourite-btn');
+
+favouriteButtons.forEach(function(button) {
+    const houseCard = button.closest('.house-card');
+    const houseId = houseCard.dataset.id;
+
+    if (favourites.includes(houseId)) {
+        button.textContent = '♥'
+        button.classList.add('active');
+    }
+});
+
+favouriteButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        const houseCard = button.closest('.house-card');
+        const houseId = houseCard.dataset.id;
+
+        if (favourites.includes(houseId)) {
+            favourites = favourites.filter(function(id) {
+                return id !== houseId;
+            });
+
+            button.textContent = '♡';
+            button.classList.remove('active');
+        } else {
+            favourites.push(houseId);
+
+             button.textContent = '♥'
+             button.classList.add('active');
+        }
+
+        localStorage.setItem('favourites', JSON.stringify(favourites));
+    });
+});
