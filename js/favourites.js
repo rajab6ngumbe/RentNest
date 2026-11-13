@@ -60,6 +60,11 @@ function displaySavedHouses() {
         houseCard.innerHTML = `
         <div class="house-image">
                 <img src="${house.image}" alt="${house.title}">
+                <button class="favourite-btn active"
+                         type="button"
+                         arial-label="Remove from favourites">
+                        ♥
+                  </button>       
             </div>
 
             <div class="house-info">
@@ -78,9 +83,20 @@ function displaySavedHouses() {
         `;
         // Add the  card to the favourites grid
         favouritesGrid.appendChild(houseCard);
+        const removeButton = houseCard.querySelector('.favourite-btn');
+
+        removeButton.addEventListener('click', function() {
+            favourites = favourites.filter(function(id) {
+                return id !== house.id;
+            });
+            
+            localStorage.setItem('favourites', JSON.stringify(favourites));
+            houseCard.remove();
+
+            if (favourites.length === 0) {
+                emptyFavouritesMessage.hidden = false;
+            }
+        })
     });
 }
 displaySavedHouses();
-
-console.log(favouritesGrid);
-console.log(emptyFavouritesMessage)
