@@ -38,4 +38,14 @@ const selectedHouse = houses.find(function(house) {
     return house.id === houseId;
 });
 
+if (!selectedHouse) {
+    console.log('Property not found');
+} else {
+    document.getElementById('property-title').textContent = selectedHouse.title;
+    document.getElementById('property-location').textContent = selectedHouse.location;
+    document.getElementById('property-price').textContent = selectedHouse.price;
+    document.getElementById('property-bedrooms').textContent = selectedHouse.bedrooms + ' Bedrooms';
+    document.getElementById('property-bathrooms').textContent = selectedHouse.bathrooms + ' Bathrooms';
+}
+
 console.log(selectedHouse);
