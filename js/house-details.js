@@ -1,5 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const houseId = urlParams.get('id');
+const propertyNotFound = document.getElementById('property-not-found');
+const propertyDetails = document.querySelector('.house-details');
 
 console.log(houseId);
 
@@ -39,7 +41,8 @@ const selectedHouse = houses.find(function(house) {
 });
 
 if (!selectedHouse) {
-    console.log('Property not found');
+    propertyDetails.hidden = true;
+    propertyNotFound.hidden = false;
 } else {
     document.getElementById('property-title').textContent = selectedHouse.title;
     document.getElementById('property-location').textContent = selectedHouse.location;
