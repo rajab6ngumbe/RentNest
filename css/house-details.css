@@ -161,7 +161,7 @@
 }
 
 .property-details h2,
-.amenities h2 {
+.property-amenities h2 {
     margin-bottom: 25px;
     font-size: 1.8rem;
 }
@@ -195,12 +195,13 @@
     gap: 12px;
 }
 
-.amenities-list span {
+.amenities-list li {
     padding: 12px 15px;
     background-color: #f1f6f3;
     border-radius: 8px;
     color: #333;
     font-size: 0.95rem;
+    list-style: none;
 }
 
 /*=== Property Location Section === */

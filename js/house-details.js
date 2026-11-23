@@ -14,11 +14,22 @@ const houses = [
         type: 'Apartment',
         bedrooms: 3,
         bathrooms: 2,
+        parking: true,
+
+        description: 'A comfortable family home in Stone Town with spacious rooms and a private garden.',
+
         images: [
             'image/house 01.jpg',
             'image/living room.jpg',
             'image/Bedroom.avif'
+        ],
+        amenities: [
+            'Air Conditioning',
+            'Wi-Fi',
+            'Private Garden',
+            'Parking'
         ]
+
     },
     {
         id: 'house-2',
@@ -28,10 +39,20 @@ const houses = [
         type: 'House',
         bedrooms: 2,
         bathrooms: 1,
+        parking: false,
+
+        description: 'A beatiful beachside apartment in Nungwi, offering a relaxing atmosphere, comfortable living space, and convenient access to the back.',
+
         images: [
             'image/house 02.jpg',
             'image/living room 02.jpeg',
             'image/Bedroom 02.jpeg'
+        ],
+        amenities: [
+            'Wi-Fi',
+            'Ocean View',
+            'Air Conditioning',
+            'Beach Access'
         ]
     },
     {
@@ -42,10 +63,20 @@ const houses = [
         type: 'House',
         bedrooms: 3,
         bathrooms: 2,
+        parking: true,
+
+        description: 'A spacious three-bedroom house in Paje, featuring comfortable living spaces and a welcoming enviroment, making it suitable for families looking for a ralaxing home.',
+
         images: [
             'image/house 03.jpg',
             'image/living room 03.jpeg',
             'image/Bedroom 03.avif'
+        ],
+        amenities: [
+            'Wi-Fi',
+            'Parking',
+            'Private Garden',
+            'Spacious Living Room'
         ]
     }
 ];
@@ -72,6 +103,10 @@ if (!selectedHouse) {
 
     document.getElementById('property-bathrooms').textContent =
         selectedHouse.bathrooms + ' Bathrooms';
+    
+    document.getElementById('property-parking').textContent = selectedHouse.parking ? 'Parking Available' : 'No Parking';    
+
+    document.getElementById('property-description').textContent = selectedHouse.description;
 
     const mainImage = document.getElementById('property-main-image');
 
@@ -95,4 +130,14 @@ if (!selectedHouse) {
 
         thumbnailContainer.appendChild(thumbnail);
     });
+
+    const amenitiesContainer = document.getElementById('property-amenities');
+    amenitiesContainer.innerHTML = '';
+    selectedHouse.amenities.forEach(function(amenity) {
+        const listItem = document.createElement('li');
+
+        listItem.textContent = amenity;
+
+        amenitiesContainer.appendChild(listItem);
+    })
 }
