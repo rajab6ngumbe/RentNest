@@ -106,25 +106,25 @@
                     <div class="details-grid">
                         <div class="detail-item">
                             <span>Property Type</span>
-                            <strong>Family House</strong>
+                            <strong id="property-type">Family House</strong>
                         </div>
                         <div class="detail-item">
                             <span>Bedrooms</span>
-                            <strong>3</strong>
+                            <strong id="details-bedrooms">3</strong>
                         </div>
 
                         <div class="detail-item">
                             <span>Parking</span>
-                            <strong>Available</strong>
+                            <strong id="details-parking">Available</strong>
                         </div>
 
                         <div class="detail-item">
                             <span>Furnished</span>
-                            <strong>Yes</strong>
+                            <strong id="property-furnished">Yes</strong>
                         </div>
                         <div class="detail-item">
                             <span>Location</span>
-                            <strong>Stone Town</strong>
+                            <strong id="details-location">Stone Town</strong>
                         </div>
                     </div>
                 </div>
@@ -144,20 +144,27 @@
             <div class="property-location-container">
                 <div class="location-info">
                     <h2>Location</h2>
-                    <p>
+                    <p id="location-description">
                         This property is located in Stone Town, Zanzibar, close to shops,
                         restaurants, transportation, and other essential services.
                     </p>
                     <div class="location-address">
                         <strong>Address</strong>
-                        <span>Stone, Town, Zanzibar, Tanzania</span>
+                        <span id="property-area">Stone, Town, Zanzibar, Tanzania</span>
                     </div>
                 </div>
 
                 <div class="location-map">
-                    <div class="map-placeholder">
-                        <span>Map</span>
-                    </div>
+                    <iframe
+                     id="property-map"
+                     title="Property location map"
+                     width="600"
+                     height="450"
+                     style="border: 0;"
+                     allowfullscreen
+                     loading="lazy"
+                     referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
             </div>
          </section>

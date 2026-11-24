@@ -15,6 +15,7 @@ const houses = [
         bedrooms: 3,
         bathrooms: 2,
         parking: true,
+        furnished: true,
 
         description: 'A comfortable family home in Stone Town with spacious rooms and a private garden.',
 
@@ -28,7 +29,8 @@ const houses = [
             'Wi-Fi',
             'Private Garden',
             'Parking'
-        ]
+        ],
+        mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7933.525066926291!2d39.19301455!3d-6.16254925!2m3!1f0!2f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185cd059242fbd01%3A0x9a18e54b0e5a94d8!2sStone%20Town%2C%20Zanzibar!5e0!3m2!1sen!2stz!4v1795520368949!5m2!1sen!2stz'
 
     },
     {
@@ -40,6 +42,7 @@ const houses = [
         bedrooms: 2,
         bathrooms: 1,
         parking: false,
+        furnished: true,
 
         description: 'A beatiful beachside apartment in Nungwi, offering a relaxing atmosphere, comfortable living space, and convenient access to the back.',
 
@@ -53,7 +56,8 @@ const houses = [
             'Ocean View',
             'Air Conditioning',
             'Beach Access'
-        ]
+        ],
+        mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15879.637917817416!2d39.287757135088!3d-5.726177608476321!2m3!1f0!2f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x18431e47dd2f981b%3A0x8e4004c205e46cb2!2sNungwi!5e0!3m2!1sen!2stz!4v1795522521461!5m2!1sen!2stz'
     },
     {
         id: 'house-3',
@@ -64,6 +68,7 @@ const houses = [
         bedrooms: 3,
         bathrooms: 2,
         parking: true,
+        furnished: false,
 
         description: 'A spacious three-bedroom house in Paje, featuring comfortable living spaces and a welcoming enviroment, making it suitable for families looking for a ralaxing home.',
 
@@ -77,7 +82,8 @@ const houses = [
             'Parking',
             'Private Garden',
             'Spacious Living Room'
-        ]
+        ],
+        mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7931.9671339612705!2d39.527821427552354!3d-6.265891074995553!2m3!1f0!2f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185d3d0a989c2b8f%3A0xd23378fca6a1a8db!2sPaje!5e0!3m2!1sen!2stz!4v1795522663230!5m2!1sen!2stz'
     }
 ];
 
@@ -107,6 +113,24 @@ if (!selectedHouse) {
     document.getElementById('property-parking').textContent = selectedHouse.parking ? 'Parking Available' : 'No Parking';    
 
     document.getElementById('property-description').textContent = selectedHouse.description;
+
+    document.getElementById('property-type').textContent = selectedHouse.type;
+
+    document.getElementById('details-bedrooms').textContent = selectedHouse.bedrooms;
+
+    document.getElementById('details-parking').textContent = selectedHouse.parking ? 'Available' : 'Not Available';
+
+    document.getElementById('property-furnished').textContent = selectedHouse.furnished ? 'Yes' : 'No';
+
+    document.getElementById('details-location').textContent = selectedHouse.location;
+
+    document.getElementById('location-description').textContent =
+        `This property is located in ${selectedHouse.location}.`;
+
+    document.getElementById('property-area').textContent = selectedHouse.location;  
+    
+    const propertyMap = document.getElementById('property-map');
+    propertyMap.src = selectedHouse.mapUrl;
 
     const mainImage = document.getElementById('property-main-image');
 
