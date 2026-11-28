@@ -134,6 +134,10 @@ if (!selectedHouse) {
 
     const mainImage = document.getElementById('property-main-image');
 
+    const contactOwnerLink = document.getElementById('contact-owner');
+
+    contactOwnerLink.href = 'contact.html?id=${selectedHouse.id}';
+
     mainImage.src = selectedHouse.images[0];
     mainImage.alt = selectedHouse.title;
 
